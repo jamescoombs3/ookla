@@ -8,6 +8,8 @@
  \____/ \____/|_|\_\______/_/    \_\_____/_/    \_\_|  |_|_|    |______|______|
 
 Analysis of the actual Ookla data
+Originally written for Honbbo's assignment, version 2 removes the iOS records because
+only Android provides data on radio conditions. Also rewrite the working directory
 
 """
 import pandas as pd
@@ -19,13 +21,12 @@ import numpy as np
 import statsmodels.formula.api as smf
 
 # define a directory to write any outputs
-workdir = 'C:/1drive/OneDrive - Three/_avado_Masters/2020/Data-Mining+Machine-Learning/assignment/'
+workdir = 'p:/ookla/workingdir/'
 
 # define location of the raw data
 ookladir = 'P:/ookla/'
 # define a RE to load just the 12th day of each month in 2020 (avoids all outliers)
-android_zips = glob.glob(ookladir + 'android_2020*2.zip')    # eg android_2020-01-12.zip
-iphone_zips = glob.glob(ookladir + 'iOs_2020*2.zip')
+android_zips = glob.glob(ookladir + 'android_2020*12.zip')    # eg android_2020-01-12.zip
 
 android_df = pd.DataFrame
 for zipf in android_zips:
@@ -44,31 +45,15 @@ for zipf in android_zips:
 # took me *ages* to discover not doing this was a problem!
 android_df.reset_index(drop=True, inplace=True)
 
-ios_df = pd.DataFrame
-for zipf in iphone_zips:
-    print('checking', zipf)
-    ook = pd.read_csv(zipf, compression='zip', header=0, low_memory=False)
-    # appending to an empty dataframe doesn't work, get around this with try/except
-    try:
-        ios_df = iOS_df.append(ook)
-    except:
-        ios_df = ook
-
-    print('so far', ios_df.__len__(), 'records')
-
-ios_df.reset_index(drop=True, inplace=True)
-
 # make a copy of the dataframes as frequently have memory problems
 android_df.to_pickle(workdir + 'android_1.pickle')
-ios_df.to_pickle(workdir + 'ios_1.pickle')
 
 """
 Reload if necessary 
 android_df = pd.read_pickle(workdir + 'android_1.pickle')
-ios_df = pd.read_pickle(workdir + 'ios_1.pickle')
 """
 
-# Define a handy function to tell us how much memory is consumed by these dataframes and their shape
+# Define function to tell us how much memory is consumed by these dataframes and their shape
 def sizeof(df):
     name = [x for x in globals() if globals()[x] is df][0]
     print('Dataframe name:', name)
@@ -80,7 +65,6 @@ def sizeof(df):
 
 # Display size and memory consumption of the sample data.
 sizeof(android_df)
-sizeof(ios_df)
 
 """
  _   _ _    _ __  __ ______ _____  _____ _____          _      
@@ -110,7 +94,6 @@ fig1.suptitle('Android Cross-Correlation Matrix', y=0.92);
 
 # capture the field types to add to the record of metadata.
 android_df.dtypes.to_csv(workdir + 'android_info.csv')
-ios_df.dtypes.to_csv(workdir + 'ios_info.csv')
 
 # running .isna() in the REPL shows too many very sparse fields so explore this area further
 and_sparse = android_df.isna().mean().sort_values()
@@ -132,14 +115,8 @@ and_sparse2.drop('index', axis=1, inplace=True)
 # this is a single plot  - we should aim to produce a multiple plot for both Android and iOS
 # ax2 = sns.lineplot(data=and_sparse2)
 
-# ... same again for ios (but with the comments removed)
-ios_sparse = ios_df.isna().mean().sort_values()
-ios_sparse.to_csv(workdir + 'ios_isna.csv')
-ios_sparse2 = ios_sparse.reset_index()
-ios_sparse2[0] = 1 - ios_sparse2[0]
-ios_sparse2.rename(columns={0: 'iOS fields'}, inplace=True)
-ios_sparse = ios_sparse2.copy(deep=True)
-ios_sparse2.drop('index', axis=1, inplace=True)
+"""
+Plotting doesn't work because it included iOS 
 
 # plot both Android and iOS in a single figure with shared y-axis
 sns.set(rc={'figure.figsize': (18, 5)})
@@ -150,6 +127,8 @@ fig.suptitle('Sparsity of variables', fontsize=20, fontweight="bold", color="bla
 # add lines at the chosen cut-off point of 50%
 axs[0].axhline(0.5, ls='--', color='r')
 axs[1].axhline(0.5, ls='--', color='r')
+
+"""
 
 # REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS REVISIONS
 # There were a couple of revisions necessary and writing the code isn't linear!
@@ -172,11 +151,6 @@ print(and_sparse.loc[and_sparse['Android fields'] < 0.5]['index'])
 # android_df.drop(and_drop['index'], axis=1, inplace=True)
 # This works
 android_df2 = android_df.drop(and_drop['index'], axis=1)
-
-# do the same for iOS
-ios_drop = ios_sparse.loc[ios_sparse['iOS fields'] < 0.5]
-ios_sparse.loc[ios_sparse['iOS fields'] < 0.5]['index']
-ios_df2 = ios_df.drop(ios_drop['index'], axis=1)
 
 # two functions to print out the highest correlations (originally courtesy of
 # https://stackoverflow.com/questions/17778394/list-highest-correlation-pairs-from-a-large-correlation-matrix-in-pandas)
@@ -228,7 +202,7 @@ android_df = android_df2.drop(remove_cols, axis=1)
 
 # make a second copy of the dataframes ...
 android_df.to_pickle(workdir + 'android_2.pickle')
-ios_df.to_pickle(workdir + 'ios_2.pickle')
+
 
 """
   _____       _______ ______ _____  ____  _____  _____ _____          _      
@@ -240,7 +214,6 @@ ios_df.to_pickle(workdir + 'ios_2.pickle')
 
 Reload data if necessary 
 android_df = pd.read_pickle(workdir + 'android_2.pickle')
-ios_df = pd.read_pickle(workdir + 'ios_2.pickle')
 """
 
 # Following a manual inspection of these data, the following should be removed.
@@ -436,4 +409,5 @@ mls = 'dl_kb ~ pta0 + pta1 + pta2 + wra + tma1 + tma2 + tma5 + tma6 + arc_arm + 
 lm = smf.ols(formula=mls, data=android_df).fit()
 print(lm.summary())
 print(lm.pvalues)
+
 
