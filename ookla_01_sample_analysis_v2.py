@@ -8,9 +8,7 @@
  \____/ \____/|_|\_\______/_/    \_\_____/_/    \_\_|  |_|_|    |______|______|
 
 Analysis of the actual Ookla data
-Originally written for Honbbo's assignment, version 2 removes the iOS records because
-only Android provides data on radio conditions. Also rewrite the working directory
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 import pandas as pd
 import xlrd
@@ -169,6 +167,7 @@ def get_top_abs_correlations(df, n=5):
     labels_to_drop = get_redundant_pairs(df)
     au_corr = au_corr.drop(labels=labels_to_drop).sort_values(ascending=False)
     return au_corr[0:n]
+
 
 print(get_top_abs_correlations(android_df2.select_dtypes(include=np.number), 60))
 

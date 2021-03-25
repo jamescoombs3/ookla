@@ -3,8 +3,8 @@ Extract speed test results from Ookla
 =====================================
 Version 1 (21/04/20) obtain zip files and extract those where the IP addresses matches Three's network
 Version 2 (13/08/20) "filter3" function updated to count the total daily records and those
-          which are run on Three's cellular network
-
+          which are run on a mobile company's cellular network
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 from bs4 import BeautifulSoup

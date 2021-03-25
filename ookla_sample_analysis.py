@@ -7,8 +7,8 @@
 | |__| | |__| | . \| |____ / ____ \ ____) / ____ \| |  | | |    | |____| |____
  \____/ \____/|_|\_\______/_/    \_\_____/_/    \_\_|  |_|_|    |______|______|
 
-Analysis of the actual Ookla data
-
+Various analytical techniques run against Ookla data to understand it
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 import pandas as pd
 import xlrd

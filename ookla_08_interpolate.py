@@ -3,13 +3,6 @@ import seaborn as sns
 import statsmodels.formula.api as smf
 from scipy import interpolate
 
-"""
-import statsmodels.formula.api as smf
-import xlrd
-import matplotlib.pyplot as plt
-import glob
-import numpy as np
-"""
 
 """
  ____ _____ _      _____ _   _ ______          _____  
@@ -21,7 +14,7 @@ import numpy as np
                                                       
 This script follows on from a series of cleansing and shaping scripts the output of which is 
 Ookla test data with the 16 nearest normal lookup points.   
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 workdir = 'p:/ookla/pickle'

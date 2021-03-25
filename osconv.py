@@ -1,5 +1,12 @@
 import math
 
+"""
+WARNING! This code doesn't work! (I know 'cause I tested it!)  
+This was one of many dead ends 
+
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
+"""
+
 # Ellipsoid parameters for different datums (m): semi-major axis, a, and
 # semi-minor axis, b.
 datum_ellipsoid = {

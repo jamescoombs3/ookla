@@ -1,9 +1,15 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import seaborn as sns
-import numpy as np
+# import numpy as np
 import pandas as pd
 import os
-import re
+# import re
+
+"""
+This was just used to produce a plot of where in the UK the Ookla tests were being run
+Entire project is uploaded to https://github.com/jamescoombs3/ookla 
+"""
+
 
 # Import some data
 csv = 'p:/ookla/2020-may2aug.csv'

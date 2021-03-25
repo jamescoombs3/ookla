@@ -8,7 +8,7 @@
  \____/ \____/|_|\_\______/_/    \_\_|  |_|______|  |_/_/    \_\
 
 Some initial analysis of the Ookla data
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 import xlrd
@@ -20,7 +20,7 @@ import os
 from scipy import stats
 
 ooklameta = pd.read_csv(r'P:\ookla\metadata.csv')
-workdir = 'C:/1drive/OneDrive - Three/_avado_Masters/2020/Data-Mining+Machine-Learning/assignment/'
+workdir = 'C:/_python/data/plots/'
 # Filename is in the form eg: 'p:/ookla/android_2019-12-16.zip'
 # take slices of this filename to find the phone operating system and date
 ooklameta['Operating System'] = ooklameta.filename.str[9:10]

@@ -8,7 +8,7 @@
 |______\____/ \_____/_/    \_\_____\_____|\____/|_|  \_\/_/    \_\_____|  |_|
 
 Investigate why location and start location have only ~.77 correlation.
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 import pandas as pd
 import xlrd
@@ -19,7 +19,7 @@ import numpy as np
 import statsmodels.formula.api as smf
 
 # define a directory to write any outputs
-workdir = 'C:/1drive/OneDrive - Three/_avado_Masters/2020/Data-Mining+Machine-Learning/assignment/'
+workdir = 'p:/ookla/pickle/'
 
 # Pickle file was created as part of the wider analysis.
 android_df = pd.read_pickle(workdir + 'android_1.pickle')

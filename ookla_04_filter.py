@@ -11,7 +11,7 @@ Analysis of the actual Ookla data
 
 Version 0.1 (16/1/21) First version. Writes monthly summaries of the wanted values
 Version 0.2 (14/2/21) Removed some columns and also rows north of 600km (still captures 93% of the population)
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 import pandas as pd

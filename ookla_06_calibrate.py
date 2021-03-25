@@ -21,6 +21,7 @@ The information on how to interpret the coverage map may be incorrect. This scri
 of the coverage map lookup function with two extra arguments allowing a shift in both x and y axes.
 An 11x11 heatmap is created for each offset (-100 to + 100 in increments of 10) to see which returns the best R**2 
 
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 workdir = 'p:/ookla/pickle'
@@ -199,14 +200,8 @@ print(lm.summary())
 print(lm.pvalues)
 print(lm.params)
 
-
-
-
-
-
 # To return the value for King's road (calculated in raster-calcs.xlsx!Reading cells F72, G72)
 print(rf.iloc[3213, 9616])
-
 
 # To return individual values, for example a slice of this dataframe
 for x in range(3210, 3213):
@@ -215,12 +210,6 @@ for x in range(3210, 3213):
 for x in range(3210, 3213):
     for y in range(9614,9617):
         print(rf.iloc[x, y])
-
-
-
-
-
-
 
 """
 RAN raster files contain six rows of meta data as follows: 
@@ -257,8 +246,6 @@ Remove the first six lines of metadata from the raster file
 rr = pd.read_csv(raster, delim_whitespace=True, low_memory=False)
 ... still doesn't work. 
 """
-
-
 
 rasterfile = 'P:/ookla/april-2020-ab'
 rf = pd.read_csv(rasterfile, delim_whitespace=True)

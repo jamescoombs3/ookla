@@ -21,7 +21,7 @@ This section:
    represent a perfect signal!) Changed zeros to -128 to prevent them distorting any predictions.  
 4) Rewrites the coverage map as a pickle file.  
 
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 workdir = 'p:/ookla/pickle'

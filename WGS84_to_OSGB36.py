@@ -1,7 +1,8 @@
 """
 Exaple of how to use pyproj to convert to and from UK coordinates
-
 It should be possble to do this more efficiently with arrays
+
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 from pyproj import Transformer

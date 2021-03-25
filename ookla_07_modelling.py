@@ -3,28 +3,17 @@ import seaborn as sns
 import statsmodels.formula.api as smf
 
 """
-import statsmodels.formula.api as smf
-import xlrd
-import matplotlib.pyplot as plt
-import glob
-import numpy as np
-"""
-
-"""
 This script follows on from a series of cleansing and shaping scripts the output of which is 
 1) A 'coverage map' 
 2) Ookla test data.  
 
-
+Entire project is uploaded to https://github.com/jamescoombs3/ookla
 """
 
 workdir = 'p:/ookla/pickle'
 ook_df = pd.read_pickle(workdir + '/ookla.pickle')
 map_df = pd.read_pickle(workdir + '/aug_map.pickle')
 
-# To potentially investigate locations with more than n samples create a new column containing a unique location hash
-# The minimum longitude is -8.096000 so this works
-ook_df['lochash'] = ook_df.apply(lambda row: row.client_latitude + (row.client_longitude + 10) * 100000, axis=1)
 
 # define a function to show shape and and memory consumption of dataframe
 def sizeof(df):
@@ -179,12 +168,35 @@ for tup in offsets:
 
 # 3. Plug those values into the formula
 
+'''
+__      __     _____  _____          _   _  _____ ______ 
+\ \    / /\   |  __ \|_   _|   /\   | \ | |/ ____|  ____|
+ \ \  / /  \  | |__) | | |    /  \  |  \| | |    | |__   
+  \ \/ / /\ \ |  _  /  | |   / /\ \ | . ` | |    |  __|  
+   \  / ____ \| | \ \ _| |_ / ____ \| |\  | |____| |____ 
+    \/_/    \_\_|  \_\_____/_/    \_\_| \_|\_____|______|
+                                                         
+This section looks at multiple tests run at same location to establish the variance 
+Need to load ook_df and map_df create the function and populate RSRP with valid values as above before running this
+'''
 
+# The minimum longitude is -8.096000 so this creates a simple unique hash of location
+ook_df['lochash'] = ook_df.apply(lambda row: row.client_latitude + (row.client_longitude + 10) * 100000, axis=1)
 
+# find the most common values
+print(ook_df['lochash'].value_counts().head())
 
+# use the value returned to create a dataframe of 1675 all run at the same location (someone was busy!)
+varies = ook_df[ook_df['lochash'] == 836954.632]
 
+ax = sns.histplot(data=varies, x='rsrp_a', kde=True)
 
+print(varies['rsrp_a'].describe(), '\n skew',
+      varies['rsrp_a'].skew(), '\n kurtosis',
+      varies['rsrp_a'].kurtosis()
+      )
 
+# THIS CODE NEEDS TIDYING UP !!
 
 # OK so let's try something totally crazy. What if my RSRP function had slipped by 50m in any direction?
 print('Adding N')
